@@ -1,0 +1,109 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Saving tier lists:
+
+HTTP request method: POST
+Endpoint: /create/tier-list
+
+Request body structure:
+{
+  "user_id": 1,
+  "template_id": 3,
+  "item_rankings": [
+    {"item_id": 1, "tier": "S", "position": 0},
+    {"item_id": 2, "tier": "S", "position": 1},
+    {"item_id": 5, "tier": "A", "position": 0},
+    {"item_id": 6, "tier": "B", "position": 0},
+    {"item_id": 4, "tier": "C", "position": 0},
+    {"item_id": 3, "tier": "D", "position": 0}
+  ]
+}
+
+Example CURL request:
+
+curl -X POST "https://interadditive-benny-matrilineal.ngrok-free.dev/create/tier-list"
+    -H "Content-Type: application/json"
+    -d '{
+      "user_id": 1,
+      "template_id": 2,
+      "item_rankings": [
+        {"item_id": 16, "tier": "A", "position": 1},
+        {"item_id": 17, "tier": "C", "position": 1},
+        {"item_id": 18, "tier": "S", "position": 1},
+        {"item_id": 19, "tier": "A", "position": 2},
+        {"item_id": 20, "tier": "B", "position": 1}
+      ]
+    }'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fetching saved tier lists for a user:
+
+HTTP request method: GET
+Endpoint: /tier-lists/:userId
+
+Response body structure:
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "template_id": 2
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "template_id": 2
+  }
+]
+
+Example CURL request:
+
+curl -X GET "https://interadditive-benny-matrilineal.ngrok-free.dev/tier-lists/1"
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fetching details for a single saved tier list:
+
+HTTP request method: GET
+Endpoint: /tier-list/:tierListId
+
+Response body structure:
+{
+  "id": 2,
+  "user_id": 1,
+  "template_id": 2,
+  "created_at": "2026-02-01T00:06:21",
+  "item_rankings": [
+    {
+      "item_id": 18,
+      "tier": "S",
+      "position": 1
+    },
+    {
+      "item_id": 16,
+      "tier": "A",
+      "position": 1
+    },
+    {
+      "item_id": 19,
+      "tier": "A",
+      "position": 2
+    },
+    {
+      "item_id": 20,
+      "tier": "B",
+      "position": 1
+    },
+    {
+      "item_id": 17,
+      "tier": "C",
+      "position": 1
+    }
+  ]
+}
+
+Example CURL request:
+
+curl -X GET "https://interadditive-benny-matrilineal.ngrok-free.dev/tier-list/2"
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
