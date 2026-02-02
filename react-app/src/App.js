@@ -10,6 +10,9 @@ import TemplatePage from 'components/explore/TemplatePage.js';
 import DevPage from 'components/dev/DevPage.jsx';
 import CreateTemplatePage from 'components/dev/CreateTemplatePage.jsx';
 import CreateItemsPage from 'components/dev/CreateItemsPage.jsx';
+import { AuthProvider } from 'contexts/AuthContext.jsx'
+import AuthModal from 'components/home/Auth';
+import { useAuth } from 'contexts/AuthContext';
 
 const theme = createTheme({
   palette: {
@@ -22,22 +25,39 @@ const theme = createTheme({
   },
 });
 
+function AppContent() {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/templates" element={<ExplorePage />} />
+        <Route path="/templates/:templateId" element={<TemplatePage />} />
+        <Route path="/my-rankings" element={<MyRankings />} />
+        <Route path="/dev" element={<DevPage />} />
+        <Route path="/dev/new-template" element={<CreateTemplatePage />} />
+        <Route path="/dev/new-items" element={<CreateItemsPage />} />
+      </Routes>
+      {!isAuthenticated && <AuthModal open={!isAuthenticated} />}
+    </>
+  );
+}
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ApiProvider>
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/templates" element={<ExplorePage />} />
-            <Route path="/templates/:templateId" element={<TemplatePage />} />
-            <Route path="/my-rankings" element={<MyRankings />} />
-            <Route path="/dev" element={<DevPage />} />
-            <Route path="/dev/new-template" element={<CreateTemplatePage />} />
-            <Route path="/dev/new-items" element={<CreateItemsPage />} />
-          </Routes>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
         </BrowserRouter>
       </ApiProvider>
     </ThemeProvider>
