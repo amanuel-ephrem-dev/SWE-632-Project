@@ -13,6 +13,8 @@ import CreateItemsPage from 'components/dev/CreateItemsPage.jsx';
 import { AuthProvider } from 'contexts/AuthContext.jsx'
 import AuthModal from 'components/home/Auth';
 import { useAuth } from 'contexts/AuthContext';
+import GlobalPage from 'components/global/GlobalPage.js';
+import GlobalLandingPage from "./components/global/GlobalLandingPage";
 
 const theme = createTheme({
   palette: {
@@ -43,6 +45,8 @@ function AppContent() {
         <Route path="/dev" element={<DevPage />} />
         <Route path="/dev/new-template" element={<CreateTemplatePage />} />
         <Route path="/dev/new-items" element={<CreateItemsPage />} />
+        <Route path="/global" element={<GlobalLandingPage />} />
+        <Route path="/global/:templateId" element={<GlobalPage />} />
       </Routes>
       {!isAuthenticated && <AuthModal open={!isAuthenticated} />}
     </>
