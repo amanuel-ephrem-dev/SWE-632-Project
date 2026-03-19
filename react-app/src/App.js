@@ -6,6 +6,7 @@ import Navbar from 'components/nav/Navbar.jsx';
 import Home from 'components/home/HomePage.js';
 import MyRankings from 'components/rankings/MyRankingsPage.js';
 import SingleRank from 'components/rankings-single/SingleRank.js';
+import CompareRank from 'components/compare/CompareRank.js';
 import ExplorePage from 'components/explore/ExplorePage.js';
 import DevPage from 'components/dev/DevPage.jsx';
 import CreateTemplatePage from 'components/dev/CreateTemplatePage.jsx';
@@ -45,6 +46,7 @@ function AppContent() {
         <Route path="/templates" element={<ExplorePage />} />
         <Route path="/my-rankings" element={<MyRankings />} />
         <Route path="/my-rankings/:rankingId" element={<SingleRank />} />
+        <Route path="/compare/:rankingId" element={<CompareRank />} />
         <Route path="/dev" element={<DevPage />} />
         <Route path="/dev/new-template" element={<CreateTemplatePage />} />
         <Route path="/dev/new-items" element={<CreateItemsPage />} />
