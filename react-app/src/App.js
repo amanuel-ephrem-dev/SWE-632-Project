@@ -8,6 +8,8 @@ import SingleRank from 'components/rankings-single/SingleRank.js';
 import CompareRank from 'components/compare/CompareRank.js';
 import MyRankings from 'components/my-rankings/MyRankingsPage.js';
 import RankingPage from 'components/rankings/RankingPage.jsx';
+import SingleRank from 'components/rankings-single/SingleRank.js';
+import CompareRank from 'components/compare/CompareRank.js';
 import ExplorePage from 'components/explore/ExplorePage.js';
 import DevPage from 'components/dev/DevPage.jsx';
 import CreateTemplatePage from 'components/dev/CreateTemplatePage.jsx';
@@ -49,6 +51,8 @@ function AppContent() {
         <Route path="/my-rankings/:rankingId" element={<SingleRank />} />
         <Route path="/compare/:rankingId" element={<CompareRank />} />
         <Route path="/my-rankings/:rankingId" element={<RankingPage />} />
+        <Route path="/my-rankings/:rankingId" element={<SingleRank />} />
+        <Route path="/compare/:rankingId" element={<CompareRank />} />
         <Route path="/dev" element={<DevPage />} />
         <Route path="/dev/new-template" element={<CreateTemplatePage />} />
         <Route path="/dev/new-items" element={<CreateItemsPage />} />
