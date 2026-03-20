@@ -1,6 +1,6 @@
 import { Container, Typography, Box } from '@mui/material';
-import RankingCard from 'components/rankings/RankingCard'
-import 'components/rankings/MyRankingsPage.css'
+import RankingCard from 'components/my-rankings/RankingCard'
+import 'components/my-rankings/MyRankingsPage.css'
 import React, { useState, useEffect } from 'react';
 import { useAuth } from 'contexts/AuthContext';
 import { useApi } from 'contexts/ApiContext';
