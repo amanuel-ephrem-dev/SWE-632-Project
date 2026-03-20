@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import "./SingleRank.css";
+import "./CompareRank.css";
 
 // Template-specific placeholder images (keyed by numeric template_id)
 const TEMPLATE_IMAGES = {
@@ -28,26 +28,36 @@ const mockRanking = {
 };
 
 const TIER_ORDER = ["S", "A", "B", "C", "D", "E", "F"];
-// function EmptyState({ label }) {
-//   return (
-//     <div className="emptyState">
-//       <div className="emptyIconWrap">
-//         <div className="emptyIcon">?</div>
-//       </div>
-//       <div className="emptyText">
-//         Hmmm... there are no items in <strong>{label}</strong>.
-//       </div>
-//     </div>
-//   );
-// }
+
+export const GLOBAL_TEMPLATES = [
+  {
+    slug: "cutestdogbreeds",
+    apiId: 1,
+    label: "Cutest Dog Breeds",
+    description: "See what global concessus is on dog breeds",
+  },
+  {
+    slug: "fruit",
+    apiId: 2,
+    label: "Fruit",
+    description: "See everyone's favorite fruit",
+  },
+  {
+    slug: "rockbands",
+    apiId: 3,
+    label: "Rock Bands",
+    description: "Global consensus for Rock Bands",
+  },
+];
+
 
 // Converts backend response -> UI model page expects
-function toUiRanking(apiData, template_name) {
-  const templateImg = TEMPLATE_IMAGES[apiData?.template_id] || DEFAULT_IMG;
+function toUiRanking(tierData, globalData, template_name) {
+  const templateImg = TEMPLATE_IMAGES[tierData?.template_id] || DEFAULT_IMG;
 
   const buckets = new Map(TIER_ORDER.map((t) => [t, []]));
 
-  for (const item of apiData.item_rankings || []) {
+  for (const item of tierData.item_rankings || []) {
     const tier = (item.tier || "").toUpperCase();
     if (!buckets.has(tier)) continue;
 
@@ -56,12 +66,30 @@ function toUiRanking(apiData, template_name) {
       name: item.item_name,
       img: templateImg,
       tier: tier,
+      color: "white",
+      tag: "",
     });
   }
 
+  for (const item of globalData.item_rankings || []) {
+    const tier = (item.average_tier || "").toUpperCase();
+    if (!buckets.has(tier)) continue;
+
+    buckets.get(tier).push({
+      id: String(item.item_id)+"global",
+      name: item.item_name,
+      img: templateImg,
+      tier: tier,
+      color: "green",
+      tag: "Global Item",
+    });
+  }
+
+  console.log(buckets)
+
   return {
     title: template_name,
-    subtitle: "My Ranking",
+    subtitle: "My Comparisons",
     tiers: TIER_ORDER.map((t) => ({
       label: `Tier ${t}`,
       items: buckets.get(t),
@@ -77,12 +105,13 @@ function TierSection({ label, items }) {
       <div className="tierLabel">{letter}</div>
 
       <div className="tierContent">
-        <div className="tierGridCompact">
+        <div className="tierGridCompact-compare">
           {items.map((item) => (
-            <article key={item.id} className="itemCardCompact">
+            <article key={item.id} className="itemCardCompact" style={{background: item.color}}>
               <img className="thumb" src={item.img} alt={item.name} />
               <div className="text">
                 <div className="name">{item.name}</div>
+                <div className="meta-compare">{item.tag}</div>
               </div>
             </article>
           ))}
@@ -92,37 +121,43 @@ function TierSection({ label, items }) {
   );
 }
 
-export default function RankingPage() {
+export default function ComparePage() {
   // Route: /global/:rankingId (rankingId is a slug like "fruit" or "tv shows")
   const { rankingId } = useParams();
   const location = useLocation();
-  const { template_name } = location.state;
+  const { template_name, template_id } = location.state;
 
   const [ranking, setRanking] = useState(mockRanking);
-
-  // const baseUrl = useMemo(
-  //   () => "https://interadditive-benny-matrilineal.ngrok-free.dev",
-  //   []
-  // );
 
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch(`https://metatier.turkmenkaan.xyz:8000/tier-list/${rankingId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true'
-                }
-            });
+            const [responseTier, responseGlobal] = await Promise.all([
+                fetch(`https://metatier.turkmenkaan.xyz:8000/tier-list/${rankingId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                }),
+                fetch(`https://metatier.turkmenkaan.xyz:8000/global/${template_id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                })
+             ])
 
             // Always check if the response is okay (status 200-299)
-            if (!response.ok) {
-                console.log(`HTTP error ${response.status}`)
+            if (!responseTier.ok) {
+                console.log(`HTTP error ${responseTier.status}`)
+            }
+            if (!responseGlobal.ok) {
+                console.log(`HTTP error ${responseGlobal.status}`)
             }
 
-            const data = await response.json();
-            setRanking(toUiRanking(data, template_name))
-            console.log(data)
+            const tierData = await responseTier.json();
+            const globalData = await responseGlobal.json();
+            setRanking(toUiRanking(tierData, globalData, template_name))
         } catch (err) {
             console.log(err.message)
         }
@@ -133,7 +168,7 @@ export default function RankingPage() {
     return () => {
       // Optional cleanup code
     };
-  }, [rankingId, template_name]);
+  });
         
 
 
