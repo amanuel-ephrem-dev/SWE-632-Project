@@ -99,6 +99,7 @@ class TierListDetailSchema(BaseModel):
     id: int
     user_id: int
     template_id: int
+    template_name: str
     created_at: datetime
     item_rankings: List[ItemRankingSchema]
     
