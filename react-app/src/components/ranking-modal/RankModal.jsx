@@ -40,6 +40,7 @@ function RankModal({ open, handleClose, templateId }) {
     const [tiers, setTiers] = useState(initialTiers);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [submitted, setSubmitted] = useState(false);
 
 
     const handleSubmit = () => {
@@ -48,6 +49,7 @@ function RankModal({ open, handleClose, templateId }) {
             return
         }
 
+        setSubmitted(true);
         axios.post(`${SERVER_URL}/create/tier-list`, {
             "user_id": userId,
             "template_id": templateId,
@@ -58,6 +60,7 @@ function RankModal({ open, handleClose, templateId }) {
             setTimeout(() => handleClose(), 5000)
         }).catch(error => {
             setError(error.message);
+            setSubmitted(false);
         })
     }
 
@@ -72,6 +75,7 @@ function RankModal({ open, handleClose, templateId }) {
 
     const onClose = () => {
         setTiers(initialTiers);
+        setSubmitted(false);
         handleClose();
     }
 
@@ -137,6 +141,7 @@ function RankModal({ open, handleClose, templateId }) {
                             }
                         }}
                         onClick={handleSubmit}
+                        disabled={submitted}
                     >
                         Submit
                     </Button>
