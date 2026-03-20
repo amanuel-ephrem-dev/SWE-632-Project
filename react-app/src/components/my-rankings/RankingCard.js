@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
-import "components/rankings/RankingCard.css"
+import "components/my-rankings/RankingCard.css"
 
 function RankingCard(props){
     return (
