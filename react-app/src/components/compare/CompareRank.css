@@ -69,9 +69,9 @@
 }
 
 /* --- FLEX layout so cards size naturally --- */
-.tierGridCompact {
+.tierGridCompact-compare {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 12px;
 }
 
@@ -144,10 +144,10 @@
   overflow: hidden;
 }
 
-.text .meta {
+.text .meta-compare {
   margin-top: 5px;
   font-size: 12px;
-  color: #6b7280;
+  color: black;
   font-weight: 700;
 }
 
@@ -216,3 +216,4 @@
   font-weight: 700;
   color: #111827;
 }
+
