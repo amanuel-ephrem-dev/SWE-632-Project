@@ -2,6 +2,7 @@ import { Container, Typography, Box } from '@mui/material';
 import RankingCard from 'components/rankings/RankingCard'
 import 'components/rankings/MyRankingsPage.css'
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from 'contexts/AuthContext';
 import { useApi } from 'contexts/ApiContext';
 
@@ -64,22 +65,53 @@ export default function MyRankingsPage() {
                     <p></p>
                 </div>
 
-
                 <div className="vertical-stack">
 
-                    {dataItems
-                        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-                        .map(key => (
-                            <div>
-                                <div className="centered-horizontally">
-                                    <RankingCard title={key.template_name} body={DATE_FORMATTER.format(convertToEST(key.created_at))} id={key.id} />
-                                </div>
+                    {dataItems.length === 0 ? (
+                        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+                            <Typography variant="h6" fontWeight="bold">
+                                You don’t have any rankings yet
+                            </Typography>
 
-                                <div style={{ paddingTop: "5px" }}>
-                                    <p></p>
+                            <Typography variant="body1" sx={{ mt: 1, mb: 2 }}>
+                                Get started by creating your first ranking.
+                            </Typography>
+
+                            <Link to="/templates" style={{ textDecoration: 'none' }}>
+                                <button
+                                    style={{
+                                        padding: '10px 22px',
+                                        borderRadius: '999px',
+                                        border: 'none',
+                                        backgroundColor: 'black',
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Get Started
+                                </button>
+                            </Link>
+                        </div>
+                    ) : (
+                        dataItems
+                            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                            .map(key => (
+                                <div key={key.id}>
+                                    <div className="centered-horizontally">
+                                        <RankingCard
+                                            title={key.template_name}
+                                            body={DATE_FORMATTER.format(convertToEST(key.created_at))}
+                                            id={key.id}
+                                        />
+                                    </div>
+
+                                    <div style={{ paddingTop: "5px" }}>
+                                        <p></p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                    )}
 
                 </div>
 
