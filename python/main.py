@@ -143,6 +143,7 @@ def get_global_tier_list(template_id: int, db: Session = Depends(database.get_db
 
     return { 
         "template_id": template_id,
+        "template_name": db.query(models.Template).filter(models.Template.id == template_id).first().name,
         "item_rankings": [
             {
                 "item_id": item_id,

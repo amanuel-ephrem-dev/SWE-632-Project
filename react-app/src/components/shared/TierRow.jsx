@@ -29,7 +29,7 @@ export default function TierRow({ label, items, templateId }) {
             >
                 <Typography
                     fontWeight={700}
-                    fontSize={36}
+                    fontSize={48}
                     color="#222">
                     {label}
                 </Typography>

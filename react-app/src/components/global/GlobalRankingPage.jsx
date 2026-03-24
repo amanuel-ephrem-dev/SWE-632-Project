@@ -1,43 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom";
 import { useApi } from "contexts/ApiContext";
-import { useAuth } from 'contexts/AuthContext.jsx'
-import { Box, Typography, CircularProgress } from "@mui/material";
-import TierRow from "components/shared/TierRow.jsx";
 import axios from "axios";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import TIERS from "constants/tiers.jsx";
+import TierRow from "components/shared/TierRow.jsx";
 
-export default function RankingPage() {
-    const { username } = useAuth();
-    const { rankingId } = useParams();
-    const { SERVER_URL } = useApi();
+export default function GlobalRankingPage() {
     const [ranking, setRanking] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { SERVER_URL } = useApi();
+    const { templateId } = useParams();
 
     useEffect(() => {
-        axios
-            .get(`${SERVER_URL}/tier-list/${rankingId}`, {
-                headers: { "ngrok-skip-browser-warning": "true" },
-            })
+        axios.get(`${SERVER_URL}/global/${templateId}`)
             .then((response) => {
+                console.log(response.data);
                 setRanking(response.data);
                 setLoading(false);
             })
             .catch((error) => {
-                setError(error.message);
+                console.error("Error fetching global ranking:", error);
+                setError(error);
                 setLoading(false);
             });
-    }, [SERVER_URL, rankingId]);
+    }, [SERVER_URL, templateId])
 
     if (loading) return <Box display="flex" justifyContent="center" mt={8}><CircularProgress /></Box>;
     if (error) return <Typography color="error" mt={4} textAlign="center">Error: {error}</Typography>;
 
     // Group item_rankings by tier
     const grouped = TIERS.reduce((acc, tier) => {
-        acc[tier] = ranking.item_rankings.filter((r) => r.tier === tier);
+        acc[tier] = ranking.item_rankings.filter((r) => r.average_tier === tier);
         return acc;
     }, {});
+
+    console.log(grouped);
 
     return (
         <Box maxWidth="75%" mx="auto" mt={4} px={2}>
@@ -46,7 +45,7 @@ export default function RankingPage() {
                     {ranking.template_name}
                 </Typography>
                 <Typography sx={{ fontSize: "18px", color: "#6b7280" }}>
-                    {username}'s Ranking
+                    Global Average
                 </Typography>
             </Box>
 
@@ -54,5 +53,5 @@ export default function RankingPage() {
                 <TierRow key={tier} label={tier} items={grouped[tier]} templateId={ranking.template_id} />
             ))}
         </Box>
-    );
+    )
 }
