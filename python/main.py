@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from pydot import List
+from typing import List
 
 # Add parent directory to path
 parent_dir = Path(__file__).resolve().parent.parent
