@@ -23,7 +23,7 @@ export default function GlobalRankingsPage() {
         setLoading(false);
         setError("Failed to load templates");
       });
-  }, []);
+  }, [SERVER_URL]);
 
   if (loading) return <Box display="flex" justifyContent="center" mt={8}><CircularProgress /></Box>;
   if (error) return <Typography color="error" mt={4} textAlign="center">Error: {error}</Typography>;
