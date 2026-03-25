@@ -1,6 +1,6 @@
-import { Container, Typography, Box } from '@mui/material';
-import RankingCard from 'components/rankings/RankingCard'
-import 'components/rankings/MyRankingsPage.css'
+import { Container, Typography, Box, Button } from '@mui/material';
+import RankingCard from 'components/my-rankings/RankingCard'
+import 'components/my-rankings/MyRankingsPage.css'
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from 'contexts/AuthContext';
@@ -77,21 +77,29 @@ export default function MyRankingsPage() {
                                 Get started by creating your first ranking.
                             </Typography>
 
-                            <Link to="/templates" style={{ textDecoration: 'none' }}>
-                                <button
-                                    style={{
-                                        padding: '10px 22px',
-                                        borderRadius: '999px',
-                                        border: 'none',
-                                        backgroundColor: 'black',
-                                        color: 'white',
-                                        fontWeight: 'bold',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    Get Started
-                                </button>
-                            </Link>
+                            <Button
+                                component={Link}
+                                to="/templates"
+                                variant="contained"
+                                sx={{
+                                    mt: 1,
+                                    px: 4,
+                                    py: 1.4,
+                                    borderRadius: '999px',
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    fontSize: '1rem',
+                                    backgroundColor: 'black',
+                                    color: 'white',
+                                    boxShadow: 'none',
+                                    '&:hover': {
+                                        backgroundColor: '#222',
+                                        boxShadow: 'none',
+                                    },
+                                }}
+                            >
+                                Get Started
+                            </Button>
                         </div>
                     ) : (
                         dataItems
@@ -103,6 +111,7 @@ export default function MyRankingsPage() {
                                             title={key.template_name}
                                             body={DATE_FORMATTER.format(convertToEST(key.created_at))}
                                             id={key.id}
+                                            template_id={key.template_id}
                                         />
                                     </div>
 
