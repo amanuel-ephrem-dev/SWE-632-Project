@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from pydot import List
+from typing import List
 
 # Add parent directory to path
 parent_dir = Path(__file__).resolve().parent.parent
@@ -82,7 +82,9 @@ def get_tier_lists_by_user(user_id: int, db: Session = Depends(database.get_db))
 
 @app.get("/tier-list/{tier_list_id}", response_model=models.TierListDetailSchema)
 def get_tier_list_detail(tier_list_id: int, db: Session = Depends(database.get_db)):
-    tier_list = db.query(models.TierList).filter(models.TierList.id == tier_list_id).first()
+    tier_list = db.query(models.TierList) \
+    .options(joinedload(models.TierList.template)) \
+        .filter(models.TierList.id == tier_list_id).first()
     
     if not tier_list:
         raise HTTPException(status_code=404, detail="Tier List not found")
@@ -96,6 +98,7 @@ def get_tier_list_detail(tier_list_id: int, db: Session = Depends(database.get_d
         "id": tier_list.id,
         "user_id": tier_list.user_id,
         "template_id": tier_list.template_id,
+        "template_name": tier_list.template.name,
         "created_at": tier_list.created_at,
         "item_rankings": [
             {
@@ -140,6 +143,7 @@ def get_global_tier_list(template_id: int, db: Session = Depends(database.get_db
 
     return { 
         "template_id": template_id,
+        "template_name": db.query(models.Template).filter(models.Template.id == template_id).first().name,
         "item_rankings": [
             {
                 "item_id": item_id,

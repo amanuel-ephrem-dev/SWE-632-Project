@@ -5,7 +5,7 @@ import { ApiProvider } from 'contexts/ApiContext.js';
 import Navbar from 'components/nav/Navbar.jsx';
 import Home from 'components/home/HomePage.js';
 import MyRankings from 'components/rankings/MyRankingsPage.js';
-import SingleRank from 'components/rankings-single/SingleRank.js';
+import RankingPage from 'components/rankings/RankingPage.jsx';
 import CompareRank from 'components/compare/CompareRank.js';
 import ExplorePage from 'components/explore/ExplorePage.js';
 import DevPage from 'components/dev/DevPage.jsx';
@@ -14,8 +14,8 @@ import CreateItemsPage from 'components/dev/CreateItemsPage.jsx';
 import { AuthProvider } from 'contexts/AuthContext.jsx'
 import AuthModal from 'components/home/Auth';
 import { useAuth } from 'contexts/AuthContext';
-import GlobalPage from 'components/global/GlobalPage.js';
-import GlobalLandingPage from "./components/global/GlobalLandingPage";
+import GlobalRankingsPage from "./components/global/GlobalRankingsPage.jsx";
+import GlobalRankingPage from "./components/global/GlobalRankingPage.jsx";
 
 const theme = createTheme({
   palette: {
@@ -45,13 +45,14 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/templates" element={<ExplorePage />} />
         <Route path="/my-rankings" element={<MyRankings />} />
-        <Route path="/my-rankings/:rankingId" element={<SingleRank />} />
+        <Route path="/my-rankings/:rankingId" element={<RankingPage />} />
         <Route path="/compare/:rankingId" element={<CompareRank />} />
         <Route path="/dev" element={<DevPage />} />
         <Route path="/dev/new-template" element={<CreateTemplatePage />} />
         <Route path="/dev/new-items" element={<CreateItemsPage />} />
-        <Route path="/global" element={<GlobalLandingPage />} />
-        <Route path="/global/:templateId" element={<GlobalPage/>} />
+        <Route path="/global" element={<GlobalRankingsPage />} />
+        <Route path="/global/:templateId" element={<GlobalRankingPage />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       {!isAuthenticated && <AuthModal open={!isAuthenticated} />}
     </>
