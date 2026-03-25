@@ -76,7 +76,7 @@
 }
 
 
-.itemCardCompact {
+.itemCardCompact-compare {
   display: grid;
   grid-template-columns: 58px 1fr;
   align-items: center;
@@ -102,15 +102,6 @@
     box-shadow 160ms ease,
     border-color 160ms ease,
     background 160ms ease;
-}
-
-.itemCardCompact:hover {
-  transform: translateY(-2px);
-  border-color: rgba(17, 24, 39, 0.14);
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    0 16px 34px rgba(0, 0, 0, 0.10);
 }
 
 .thumb {
@@ -217,3 +208,28 @@
   color: #111827;
 }
 
+.back-button button {
+  background-color: #d1d1d1; /* Green background #04AA6D */
+  color: black;              /* White text */
+  padding: 12px 24px;        /* Spacing inside */
+  border: none;              /* Remove default border */
+  border-radius: 8px;        /* Rounded corners */
+  font-size: 16px;
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: 0.3s;
+  width: 100px;
+  margin-top: 14px;
+}
+
+.back-button:hover button:hover{
+  background-color: #a9aaab; /* Green background #04AA6D */
+  color: black;              /* White text */
+  padding: 12px 24px;        /* Spacing inside */
+  border: none;              /* Remove default border */
+  border-radius: 8px;        /* Rounded corners */
+  font-size: 16px;
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: 0.3s;
+  width: 100px;
+  margin-top: 14px;
+}

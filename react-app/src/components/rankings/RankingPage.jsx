@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useApi } from "contexts/ApiContext";
 import { useAuth } from 'contexts/AuthContext.jsx'
+import { useNavigate } from "react-router-dom";
 import { Box, Typography, CircularProgress } from "@mui/material";
 import TierRow from "components/shared/TierRow.jsx";
 import axios from "axios";
 import TIERS from "constants/tiers.jsx";
+import "./RankingPage.css";
 
 export default function RankingPage() {
     const { username } = useAuth();
@@ -14,6 +16,11 @@ export default function RankingPage() {
     const [ranking, setRanking] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+  const handleGoBack = () => {
+      navigate(-1);
+  }
 
     useEffect(() => {
         axios
@@ -40,6 +47,7 @@ export default function RankingPage() {
     }, {});
 
     return (
+    <div>
         <Box maxWidth="75%" mx="auto" mt={4} px={2}>
             <Box px={2} sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                 <Typography sx={{ fontSize: "36px", fontWeight: 800, color: "#111827" }}>
@@ -53,6 +61,10 @@ export default function RankingPage() {
             {TIERS.map((tier) => (
                 <TierRow key={tier} label={tier} items={grouped[tier]} templateId={ranking.template_id} />
             ))}
+          <div className="back-button"><button onClick={handleGoBack}> back </button> </div>
         </Box>
+
+        
+     </div>
     );
 }
