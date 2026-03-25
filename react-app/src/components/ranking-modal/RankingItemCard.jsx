@@ -1,11 +1,11 @@
 import { Box, Chip } from '@mui/material';
-import { Clear } from '@mui/icons-material';
+import { Clear, DragIndicator } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
 import { draggable } from  '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 
 function RankingItemCard({ item, location, onMoveToUnranked }) {
     const ref = useRef(null);
-    const [, setDragging] = useState(false);
+    const [dragging, setDragging] = useState(false);
 
     useEffect(() => {
         console.log("item", item)
@@ -33,11 +33,13 @@ function RankingItemCard({ item, location, onMoveToUnranked }) {
             <Chip
                 ref={ref}
                 label={item.name}
+                icon={<DragIndicator sx={{ color: 'white !important', fontSize: 16 }} />}
                 deleteIcon={<Clear />}
                 onDelete={handleDelete}
                 sx={{
                     backgroundColor: 'black',
                     color: 'white',
+                    cursor: dragging ? 'grabbing' : 'grab',
                     '& .MuiChip-deleteIcon': {
                         color: 'white',
                     },

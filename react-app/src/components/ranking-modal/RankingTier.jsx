@@ -4,14 +4,13 @@ import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element
 
 import RankingItemCard from "./RankingItemCard";
 
-function getColor(isDraggedOver) {
-    if (isDraggedOver) {
-        return 'skyblue';
-    }
+function getColor(isDraggedOver, isDragging) {
+    if (isDraggedOver) return 'skyblue';
+    if (isDragging) return '#e8f4fd';
     return 'white';
 }
 
-function RankingTier({ items, location, onMoveToUnranked }) {
+function RankingTier({ items, location, onMoveToUnranked, isDragging }) {
     const ref = useRef(null);
     const [isDraggedOver, setIsDraggedOver] = useState(false);
 
@@ -37,7 +36,7 @@ function RankingTier({ items, location, onMoveToUnranked }) {
                 width: "100%",
                 flexWrap: 'wrap',
                 minHeight: 26, 
-                backgroundColor: getColor(isDraggedOver),
+                backgroundColor: getColor(isDraggedOver, isDragging),
                 // backgroundColor: 'blue',
                 alignItems: 'center'
             }}

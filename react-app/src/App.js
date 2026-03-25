@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { ApiProvider } from 'contexts/ApiContext.js';
 import Navbar from 'components/nav/Navbar.jsx';
 import Home from 'components/home/HomePage.js';
-import MyRankings from 'components/rankings/MyRankingsPage.js';
+import MyRankings from 'components/my-rankings/MyRankingsPage.js';
 import RankingPage from 'components/rankings/RankingPage.jsx';
 import CompareRank from 'components/compare/CompareRank.js';
 import ExplorePage from 'components/explore/ExplorePage.js';
