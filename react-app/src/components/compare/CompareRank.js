@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./CompareRank.css";
 
 // Template-specific placeholder images (keyed by numeric template_id)
@@ -107,7 +108,7 @@ function TierSection({ label, items }) {
       <div className="tierContent">
         <div className="tierGridCompact-compare">
           {items.map((item) => (
-            <article key={item.id} className="itemCardCompact" style={{background: item.color}}>
+            <article key={item.id} className="itemCardCompact-compare" style={{background: item.color}}>
               <img className="thumb" src={item.img} alt={item.name} />
               <div className="text">
                 <div className="name">{item.name}</div>
@@ -128,6 +129,11 @@ export default function ComparePage() {
   const { template_name, template_id } = location.state;
 
   const [ranking, setRanking] = useState(mockRanking);
+
+  const navigate = useNavigate();
+  const handleGoBack = () => {
+      navigate(-1);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -197,6 +203,11 @@ export default function ComparePage() {
             Rank Id: <span className="idChipValue">{rankingId}</span>
           </div>
         ) : null}
+
+
+      <div className="back-button"><button onClick={handleGoBack}> back </button> </div>
+
+        
       </div>
     </div>
   );

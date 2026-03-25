@@ -16,12 +16,7 @@ export default function ItemCard({ item, imageUrl }) {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                    }
+                    cursor: 'pointer'
                 }}
             >
                 <Box

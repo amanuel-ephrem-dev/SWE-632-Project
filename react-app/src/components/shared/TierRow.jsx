@@ -50,5 +50,6 @@ export default function TierRow({ label, items, templateId }) {
                 })}
             </Box>
         </Box>
+
     );
 }
