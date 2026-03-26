@@ -1,33 +1,37 @@
-import { useEffect } from "react";
-import { List, ListItem } from "@mui/material";
+import { useEffect, useState } from "react";
+import { List, ListItem, Typography } from "@mui/material";
 
 import RankingTier from "./RankingTier";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 
 
-function renderTier(key, values, onMoveToUnranked) {
+function renderTier(key, values, onMoveToUnranked, isDragging) {
     if (key === "unranked") {
         return (
-            <ListItem key={key}>
-                <RankingTier items={values} location={key} onMoveToUnranked={onMoveToUnranked} />
+            <ListItem key={key} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.5 }}>
+                    Drag items into a tier to rank them
+                </Typography>
+                <RankingTier items={values} location={key} onMoveToUnranked={onMoveToUnranked} isDragging={isDragging} />
             </ListItem>
         )
     }
 
     return (
-        <ListItem key={key} sx={{ 
-            display: 'flex', 
+        <ListItem key={key} sx={{
+            display: 'flex',
             flexDirection: 'column',
             paddingBottom: "0px",
             paddingTop: "0px"
         }}>
             <h3 style={{ marginTop: 5, marginBottom: 5 }}>{key.toUpperCase()}-Tier</h3>
-            <RankingTier title={key} items={values} location={key} onMoveToUnranked={onMoveToUnranked} />
+            <RankingTier title={key} items={values} location={key} onMoveToUnranked={onMoveToUnranked} isDragging={isDragging} />
         </ListItem>
     )
 }
 
 function RankingList({ tiers, setTiers }) {
+    const [isDragging, setIsDragging] = useState(false);
 
     const handleMoveToUnranked = (movedItem, currentLocation) => {
         if (currentLocation === "unranked") {
@@ -44,7 +48,9 @@ function RankingList({ tiers, setTiers }) {
 
     useEffect(() => {
         return monitorForElements({
+            onDragStart: () => setIsDragging(true),
             onDrop({ source, location }) {
+                setIsDragging(false);
                 const destination = location.current.dropTargets[0];
                 if (!destination) {
                     return;
@@ -71,7 +77,7 @@ function RankingList({ tiers, setTiers }) {
 
     return (
         <List>
-        {Object.entries(tiers).map(([key, values]) => renderTier(key, values, handleMoveToUnranked))}
+        {Object.entries(tiers).map(([key, values]) => renderTier(key, values, handleMoveToUnranked, isDragging))}
         </List>
     )
 }

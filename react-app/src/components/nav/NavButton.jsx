@@ -1,8 +1,11 @@
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import LockIcon from '@mui/icons-material/Lock';
 
 export default function NavButton({ title, path, locked = false }) {
+    const { pathname } = useLocation();
+    const isActive = pathname === path || (path !== '/' && pathname.startsWith(path));
+
     return (
         <Button
             component={Link}
@@ -11,7 +14,10 @@ export default function NavButton({ title, path, locked = false }) {
             sx={{
                 fontWeight: 500,
                 fontFamily: 'Poppins, sans-serif',
-                cursor: locked ? 'not-allowed' : 'pointer'
+                cursor: locked ? 'not-allowed' : 'pointer',
+                borderBottom: isActive ? '2px solid currentColor' : '2px solid transparent',
+                borderRadius: 0,
+                paddingBottom: '4px',
             }}
             startIcon={locked ? <LockIcon fontSize="small" /> : null}
         >
