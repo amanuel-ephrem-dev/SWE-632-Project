@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey, CheckConstraint
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey, CheckConstraint, Boolean
 from sqlalchemy.orm import relationship
 from db.database import Base
 from pydantic import BaseModel
@@ -36,8 +36,9 @@ class TierList(Base):
     user_id = Column(Integer, nullable=False)
     template_id = Column(Integer, ForeignKey("templates.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP, default=lambda: datetime.now(timezone.utc), nullable=False)
+    is_deleted = Column(Boolean, nullable=False, default=False)
     
-    # Relationship
+    # Relationships
     template = relationship("Template", back_populates="tier_lists")
     item_rankings = relationship("ItemRanking", back_populates="tier_list", cascade="all, delete-orphan")
 
@@ -91,6 +92,7 @@ class TierListSchema(BaseModel):
     template_id: int
     template_name: str
     created_at: datetime
+    is_deleted: bool
     
     class Config:
         from_attributes = True

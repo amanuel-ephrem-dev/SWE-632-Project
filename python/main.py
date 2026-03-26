@@ -64,6 +64,7 @@ def get_tier_lists_by_user(user_id: int, db: Session = Depends(database.get_db))
     tier_lists = db.query(models.TierList) \
         .options(joinedload(models.TierList.template)) \
         .filter(models.TierList.user_id == user_id) \
+        .filter(models.TierList.is_deleted == False) \
         .all()
     
     for tl in tier_lists:
@@ -75,7 +76,8 @@ def get_tier_lists_by_user(user_id: int, db: Session = Depends(database.get_db))
             "user_id": tl.user_id,
             "template_id": tl.template_id,
             "template_name": tl.template.name,
-            "created_at": tl.created_at
+            "created_at": tl.created_at,
+            "is_deleted": tl.is_deleted
         }
         for tl in tier_lists
     ]
@@ -243,3 +245,17 @@ def get_or_create_user(user_data: models.UserCreateSchema, db: Session = Depends
     db.commit()
     db.refresh(new_user)
     return new_user
+
+# DELETE methods
+@app.delete("/delete/tier-list/{tier_list_id}")
+def delete_tier_list(tier_list_id: int, db: Session = Depends(database.get_db)):
+    tier_list = db.query(models.TierList).filter(
+        models.TierList.id == tier_list_id,
+        models.TierList.is_deleted == False
+    ).first()
+    if not tier_list:
+        raise HTTPException(status_code=404, detail="Tier List not found")
+    
+    tier_list.is_deleted = True
+    db.commit()
+    return {"detail": "Tier List deleted successfully"}
