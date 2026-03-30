@@ -5,13 +5,6 @@ import { useNavigate } from "react-router-dom";
 import "./CompareRank.css";
 
 // Template-specific placeholder images (keyed by numeric template_id)
-const TEMPLATE_IMAGES = {
-  1: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=400&q=60", // dog
-  2: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=400&q=60", // fruit
-  3: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=400&q=60", // tv
-};
-
-const DEFAULT_IMG = TEMPLATE_IMAGES[1];
 
 // Fallback mock (API fails)
 const mockRanking = {
@@ -53,8 +46,7 @@ export const GLOBAL_TEMPLATES = [
 
 
 // Converts backend response -> UI model page expects
-function toUiRanking(tierData, globalData, template_name) {
-  const templateImg = TEMPLATE_IMAGES[tierData?.template_id] || DEFAULT_IMG;
+function toUiRanking(tierData, globalData, template_name, template_id) {
 
   const buckets = new Map(TIER_ORDER.map((t) => [t, []]));
 
@@ -62,6 +54,7 @@ function toUiRanking(tierData, globalData, template_name) {
     const tier = (item.tier || "").toUpperCase();
     if (!buckets.has(tier)) continue;
 
+    var templateImg = `https://metatier.turkmenkaan.xyz:8000/static/${template_id}/${item.item_name.toLowerCase().replace(/\s+|\/+/g, "")}.jpg`
     buckets.get(tier).push({
       id: String(item.item_id),
       name: item.item_name,
@@ -72,10 +65,13 @@ function toUiRanking(tierData, globalData, template_name) {
     });
   }
 
+
+
   for (const item of globalData.item_rankings || []) {
     const tier = (item.average_tier || "").toUpperCase();
     if (!buckets.has(tier)) continue;
-
+    
+    templateImg = `https://metatier.turkmenkaan.xyz:8000/static/${template_id}/${item.item_name.toLowerCase().replace(/\s+|\/+/g, "")}.jpg`
     buckets.get(tier).push({
       id: String(item.item_id)+"global",
       name: item.item_name,
@@ -163,7 +159,7 @@ export default function ComparePage() {
 
             const tierData = await responseTier.json();
             const globalData = await responseGlobal.json();
-            setRanking(toUiRanking(tierData, globalData, template_name))
+            setRanking(toUiRanking(tierData, globalData, template_name, template_id))
         } catch (err) {
             console.log(err.message)
         }

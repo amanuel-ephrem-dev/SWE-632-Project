@@ -8,7 +8,8 @@ function RankingItemCard({ item, location, onMoveToUnranked }) {
     const [dragging, setDragging] = useState(false);
 
     useEffect(() => {
-        console.log("item", item)
+        //console.log("item", item)
+        console.log(`hi - ${location}`)
         const el = ref.current;
         if (!el) return;
 
@@ -26,27 +27,50 @@ function RankingItemCard({ item, location, onMoveToUnranked }) {
         }
     }
 
-    return (
-        <Box sx={{
-            margin: "2px"
-        }}>
-            <Chip
-                ref={ref}
-                label={item.name}
-                icon={<DragIndicator sx={{ color: 'white !important', fontSize: 16 }} />}
-                deleteIcon={<Clear />}
-                onDelete={handleDelete}
-                sx={{
-                    backgroundColor: 'black',
-                    color: 'white',
-                    cursor: dragging ? 'grabbing' : 'grab',
-                    '& .MuiChip-deleteIcon': {
+    var isRanked = location !== "unranked"
+    if(isRanked){
+        return (
+            <Box sx={{
+                margin: "2px"
+            }}>
+                <Chip
+                    ref={ref}
+                    label={item.name}
+                    icon={<DragIndicator sx={{ color: 'white !important', fontSize: 16 }} />}
+                    deleteIcon={<Clear />}
+                    onDelete={handleDelete}
+                    sx={{
+                        backgroundColor: 'black',
                         color: 'white',
-                    },
-                }}
-            />
-        </Box>
-    )
+                        cursor: dragging ? 'grabbing' : 'grab',
+                        '& .MuiChip-deleteIcon': {
+                            color: 'white',
+                        },
+                    }}
+                />
+            </Box>
+        )
+    }else{
+        return (
+            <Box sx={{
+                margin: "2px"
+            }}>
+                <Chip
+                    ref={ref}
+                    label={item.name}
+                    icon={<DragIndicator sx={{ color: 'white !important', fontSize: 16 }} />}
+                    sx={{
+                        backgroundColor: 'black',
+                        color: 'white',
+                        cursor: dragging ? 'grabbing' : 'grab',
+                        '& .MuiChip-deleteIcon': {
+                            color: 'white',
+                        },
+                    }}
+                />
+            </Box>
+        )
+    }
 }
 
 export default RankingItemCard;
