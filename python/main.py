@@ -20,6 +20,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
             "http://localhost:3000",
+            "https://meta-tier-v1.vercel.app",
+            "https://meta-tier-v2.vercel.app",
             "https://meta-tier.vercel.app",
             "https://swe-632-project.vercel.app"
         ],
