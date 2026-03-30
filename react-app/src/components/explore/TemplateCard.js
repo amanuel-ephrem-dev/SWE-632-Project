@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Divider } from '@mui/material';
 
 export default function TemplateCard({ template, onClick }) {
     return (
@@ -13,6 +13,7 @@ export default function TemplateCard({ template, onClick }) {
                 transition: 'all 0.3s ease',
                 textDecoration: 'none',
                 color: 'inherit',
+                backgroundColor: '#fff',
                 display: 'block',
                 '&:hover': {
                     transform: 'translateY(-4px)',
@@ -24,7 +25,13 @@ export default function TemplateCard({ template, onClick }) {
             <Typography variant="h5" fontWeight="bold">
                 {template.name}
             </Typography>
-            <Typography variant="body1" sx={{ mt: 1 }}>
+            {template.category && (
+                <Typography variant="caption" color="text.secondary">
+                    {template.category}
+                </Typography>
+            )}
+            <Divider sx={{ my: 1 }} />
+            <Typography variant="body1">
                 {template.description}
             </Typography>
         </Box>
