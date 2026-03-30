@@ -89,15 +89,12 @@ function RankingItemCard({ item, location, onMoveToUnranked, variant = "chip", t
         );
     }
 
-    // chip variant — used in the unranked pool
     return (
         <Box sx={{ margin: "2px" }}>
             <Chip
                 ref={ref}
                 label={item.name}
                 icon={<DragIndicator sx={{ color: 'white !important', fontSize: 16 }} />}
-                deleteIcon={<Clear />}
-                onDelete={handleDelete}
                 sx={{
                     backgroundColor: 'black',
                     color: 'white',
