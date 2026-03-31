@@ -7,7 +7,7 @@ import Home from 'components/home/HomePage.js';
 import MyRankings from 'components/my-rankings/MyRankingsPage.js';
 import RankingPage from 'components/rankings/RankingPage.jsx';
 import CompareRank from 'components/compare/CompareRank.js';
-import ExplorePage from 'components/explore/ExplorePage.js';
+import ExplorePage from 'components/explore/ExplorePage';
 import DevPage from 'components/dev/DevPage.jsx';
 import CreateTemplatePage from 'components/dev/CreateTemplatePage.jsx';
 import CreateItemsPage from 'components/dev/CreateItemsPage.jsx';
