@@ -10,7 +10,7 @@ import {
     CircularProgress,
     Grid
 } from '@mui/material';
-import TemplateCard from './TemplateCard';
+import TemplateCard from '../shared/TemplateCard';
 import RankingModal from 'components/ranking-modal/RankModal';
 
 const ACCENT = '#FF7F7F';

@@ -8,6 +8,8 @@ import { useAuth } from "contexts/AuthContext"
 import axios from "axios";
 
 
+
+
 const initialTiers = {
     "unranked": [],
     "S": [],
@@ -17,6 +19,8 @@ const initialTiers = {
     "D": [],
     "F": []
 }
+
+
 
 function normalizeTiers(tiers) {
     const normalizedPayload = []
@@ -40,6 +44,7 @@ function RankModal({ open, handleClose, templateId }) {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [submitted, setSubmitted] = useState(false);
+    const [topicName, setTopicName] = useState("");
 
 
     const handleSubmit = () => {
@@ -55,6 +60,7 @@ function RankModal({ open, handleClose, templateId }) {
             "item_rankings": normalizeTiers(tiers)
         }).then(response => {
             console.log("response", response.data)
+            setTopicName(response.data.template_name || "Ranking");
             setSuccess("Ranking Saved")
             setTimeout(() => handleClose(), 5000)
         }).catch(error => {
@@ -87,7 +93,8 @@ function RankModal({ open, handleClose, templateId }) {
                 'ngrok-skip-browser-warning': 'true'
             }
         }).then(response => {
-            console.log("data", response.data)
+            setTopicName(response.data.template_name || "Ranking");
+          
             setTiers({
                 "unranked": response.data.items,
                 "S": [],
@@ -129,7 +136,11 @@ function RankModal({ open, handleClose, templateId }) {
                     >
                     <Clear />
                 </IconButton>
-                <h2 style={{ textAlign: 'center', marginTop: 0 }}>Today's Topic</h2>
+                <div style={{ textAlign: 'center', marginBottom: '12px' }}>
+                    <h2 style={{ margin: 0 }}>
+                        {topicName || "Loading..."}
+                    </h2>
+                </div>
                 {success !== "" && (<Alert severity="success" icon={<Check fontSize="inherit" />}>{success}</Alert>)}
                 {error !== "" && (<Alert severity="error" icon={<Error fontSize="inherit" />}>{error}</Alert>)}
                 <Box sx={{ overflowY: 'auto', flex: 1 }}>
