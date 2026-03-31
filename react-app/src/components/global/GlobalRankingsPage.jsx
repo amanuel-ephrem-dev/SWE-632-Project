@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import TemplateCard from '../shared/TemplateCard';
 import { useApi } from "contexts/ApiContext";
-import TemplateCard from "./TemplateCard";
+import { useNavigate } from 'react-router-dom';
 
 export default function GlobalRankingsPage() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { SERVER_URL } = useApi();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -45,10 +47,9 @@ export default function GlobalRankingsPage() {
         }}>
           {templates.map((template) => (
             <TemplateCard
+              template={template}
               key={template.id}
-              templateId={template.id}
-              name={template.name}
-              description={template.description}
+              onClick={() => navigate(`/global/${template.id}`)}
             />
           ))}
         </Box>
