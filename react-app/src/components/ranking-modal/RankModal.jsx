@@ -17,7 +17,6 @@ const initialTiers = {
     "B": [],
     "C": [],
     "D": [],
-    "E": [],
     "F": []
 }
 
@@ -94,21 +93,20 @@ function RankModal({ open, handleClose, templateId }) {
                 'ngrok-skip-browser-warning': 'true'
             }
         }).then(response => {
-              console.log("data", response.data);
-
-              setTopicName(response.data.template_name || "Ranking");
-
-              setTiers({
-                  "unranked": response.data.items,
-                  "S": [],
-                  "A": [],
-                  "B": [],
-                  "C": [],
-                  "D": [],
-                  "E": [],
-                  "F": []
-              })
-          })
+            setTopicName(response.data.template_name || "Ranking");
+          
+            setTiers({
+                "unranked": response.data.items,
+                "S": [],
+                "A": [],
+                "B": [],
+                "C": [],
+                "D": [],
+                "F": []
+            })
+        }).catch(error => {
+            setError(error.message);
+        });
     }, [open, SERVER_URL, templateId]);
 
     return (
@@ -118,11 +116,15 @@ function RankModal({ open, handleClose, templateId }) {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: 700,
+                width: '90vw',
+                maxWidth: 900,
+                maxHeight: '90vh',
                 bgcolor: 'background.paper',
                 boxShadow: 24,
                 color: 'black',
                 p: 4,
+                display: 'flex',
+                flexDirection: 'column',
             }}>
                 <IconButton
                     onClick={handleClose}
@@ -141,7 +143,9 @@ function RankModal({ open, handleClose, templateId }) {
                 </div>
                 {success !== "" && (<Alert severity="success" icon={<Check fontSize="inherit" />}>{success}</Alert>)}
                 {error !== "" && (<Alert severity="error" icon={<Error fontSize="inherit" />}>{error}</Alert>)}
-                <RankingList tiers={tiers} setTiers={setTiers} />
+                <Box sx={{ overflowY: 'auto', flex: 1 }}>
+                    <RankingList tiers={tiers} setTiers={setTiers} templateId={templateId} />
+                </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     <Button
                         variant='contained'
