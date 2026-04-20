@@ -3,12 +3,12 @@ import { useApi } from "contexts/ApiContext";
 import ItemCard from "./ItemCard";
 
 const TIER_COLORS = {
-    S: "#FF7F7F",
-    A: "#FFBF7F",
-    B: "#FFDF7F",
-    C: "#FFFF7F",
-    D: "#BFFF7F",
-    F: "#7FBF7F",
+        S: "#7FBF7F",
+        A: "#BFFF7F",
+        B: "#FFFF7F",
+        C: "#FFDF7F",
+        D: "#FFBF7F",
+        F: "#FF7F7F",
 };
 
 export default function TierRow({ label, items, templateId }) {
@@ -42,14 +42,22 @@ export default function TierRow({ label, items, templateId }) {
                 gap={1}
                 px={1.5}
                 py={1}
-                sx={{ backgroundColor: "#1e1e1e", flex: 1 }}
+                sx={{ backgroundColor: "#1f2937", flex: 1 }}
             >
                 {items.map((item) => {
-                    const imageUrl = `${SERVER_URL}/static/${templateId}/${item.item_name.toLowerCase().replace(/\s+|\/+/g, "")}.jpg`;
-                    return <ItemCard key={item.item_id} item={item} imageUrl={imageUrl} />;
+                    const imageUrl = `${SERVER_URL}/static/${templateId}/${item.item_name
+                        .toLowerCase()
+                        .replace(/\s+|\/+/g, "")}.jpg`;
+
+                    return (
+                        <ItemCard
+                            key={item.item_id}
+                            item={item}
+                            imageUrl={imageUrl}
+                        />
+                    );
                 })}
             </Box>
         </Box>
-
     );
 }
