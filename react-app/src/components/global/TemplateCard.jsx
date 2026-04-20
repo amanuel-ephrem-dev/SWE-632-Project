@@ -25,13 +25,13 @@ export default function TemplateCard({ name, description, templateId }) {
         >
             <CardContent sx={{ padding: "18px 20px" }}>
                 <Typography
-                    sx={{ fontSize: "18px", fontWeight: 800, color: "#111827" }}
+                    sx={{ fontSize: "15px", fontWeight: 800, color: "#111827" }}
                 >
                     {name}
                 </Typography>
                 {description && (
                     <Typography
-                        sx={{ mt: "6px", fontSize: "13px", color: "#6b7280" }}
+                        sx={{ mt: "6px", fontSize: "15px", color: "#6b7280" }}
                     >
                         {description}
                     </Typography>

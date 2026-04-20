@@ -22,16 +22,16 @@ export default function TemplateCard({ template, onClick }) {
                 }
             }}
         >
-            <Typography variant="h5" fontWeight="bold">
+            <Typography style={{ fontSize: '18px' }} fontWeight="bold">
                 {template.name}
             </Typography>
             {template.category && (
-                <Typography variant="caption" color="text.secondary">
+                <Typography style={{ fontSize: '16px', fontWeight: 300 }} color="text.secondary">
                     {template.category}
                 </Typography>
             )}
             <Divider sx={{ my: 1 }} />
-            <Typography variant="body1">
+            <Typography style={{ fontSize: '18px', fontWeight: 400 }} color="text.secondary">
                 {template.description}
             </Typography>
         </Box>
