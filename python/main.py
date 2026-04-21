@@ -23,6 +23,7 @@ app.add_middleware(
             "https://meta-tier-v1.vercel.app",
             "https://meta-tier-v2.vercel.app",
             "https://meta-tier.vercel.app",
+            "https://meta-tier-v4.vercel.app",
             "https://swe-632-project.vercel.app"
         ],
     allow_credentials=True,
