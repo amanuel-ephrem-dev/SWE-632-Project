@@ -17,7 +17,7 @@
     background-color: black;
     color: white;
     border-radius: 15px;
-    width: 8rem;
+    width: 7rem; /* set to 7 if there are two buttons */
     height: 2.5rem;
     font-size: 20px;
     font-weight: bold;
@@ -25,14 +25,8 @@
     outline: none;
 }
 
-.card-button-delete {
+.card-button:hover {
     background-color: white;
-    color: #e24b4a;
-    border: 2px solid #e24b4a;
-}
-
-.card-button-delete:hover {
-    background-color: #fcebeb;
-    color: #a32d2d;
-    border-color: #a32d2d;
+    color: black;
+    border: 2px solid black;
 }

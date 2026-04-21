@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom";
 import { useApi } from "contexts/ApiContext";
 import axios from "axios";
@@ -40,45 +40,18 @@ export default function GlobalRankingPage() {
 
     return (
         <Box maxWidth="75%" mx="auto" mt={4} px={2}>
-            <Box
-                px={2}
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1.5,
-                    flexWrap: "wrap",
-                }}
-            >
-                <Typography
-                    sx={{
-                        fontSize: "36px",
-                        fontWeight: 800,
-                        color: "#111827",
-                        lineHeight: 1.1,
-                    }}
-                >
+            <Box px={2} sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <Typography sx={{ fontSize: "36px", fontWeight: 800, color: "#111827" }}>
                     {ranking.template_name}
                 </Typography>
-
-                <Typography
-                    sx={{
-                        fontSize: "18px",
-                        fontWeight: 600,
-                        color: "#6b7280",
-                    }}
-                >
+                <Typography sx={{ fontSize: "18px", color: "#6b7280" }}>
                     Global Average
                 </Typography>
             </Box>
 
             {TIERS.map((tier) => (
-                <TierRow
-                    key={tier}
-                    label={tier}
-                    items={grouped[tier]}
-                    templateId={ranking.template_id}
-                />
+                <TierRow key={tier} label={tier} items={grouped[tier]} templateId={ranking.template_id} />
             ))}
         </Box>
-    );
+    )
 }
